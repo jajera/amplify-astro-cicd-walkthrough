@@ -1,0 +1,51 @@
+---
+title: Create Amplify app
+description: Manually create the Amplify Hosting app and connect the GitHub repository with the Amplify GitHub App.
+---
+
+import { Aside } from "@astrojs/starlight/components";
+import Tooltip from "@/components/Tooltip.astro";
+
+## Create the app in the Console
+
+1. Open the AWS Console → **AWS Amplify**
+2. **Create new app** → **Host web app**
+3. Choose **GitHub** as the repository provider
+4. Authorize / install the <Tooltip term="github-app" label="Amplify GitHub App" /> for your user or organization
+5. Select the `amplify-astro-cicd` repository
+6. Connect branch **`main`** first and confirm Amplify detected <Tooltip term="amplify-yml" label="amplify.yml" />
+7. Save and deploy - wait until the `main` job succeeds
+8. Open **`https://main.<app-id>.amplifyapp.com`** and confirm the Astro page loads
+
+Record your **app id** (visible in the Console URL and default domain). You will need it for staging and preview URLs.
+
+## Add the staging branch
+
+1. In the Amplify app → **Branch** / hosting overview → **Connect branch**
+2. Select Git branch **`staging`**
+3. Use the same build settings (`amplify.yml`)
+4. Deploy and open **`https://staging.<app-id>.amplifyapp.com`**
+
+<Aside type="tip">
+Do not add extra Console-only branches. Keep Amplify branches aligned with Git `main` and `staging`.
+</Aside>
+
+## Verify build settings
+
+Under build settings, confirm:
+
+- App root is repository root
+- Build uses `amplify.yml`
+- Artifact directory is `dist`
+
+## Screenshots to capture (for your notes)
+
+When documenting your own run, capture:
+
+1. GitHub App install confirmation
+2. Successful `main` deploy
+3. Successful `staging` deploy
+
+This walkthrough stays on default Amplify domains - no custom domain step.
+
+Next: [Previews and auto-delete](/deploy-and-operate/previews-and-auto-delete/).

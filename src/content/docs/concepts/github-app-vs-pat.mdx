@@ -1,0 +1,33 @@
+---
+title: GitHub App vs PAT
+description: Why Amplify uses a GitHub App instead of a long-lived personal access token.
+---
+
+import { Aside } from "@astrojs/starlight/components";
+import Tooltip from "@/components/Tooltip.astro";
+
+## Prefer the Amplify GitHub App
+
+When you connect a repository in the Amplify Console, AWS walks you through installing the <Tooltip term="github-app" label="Amplify GitHub App" /> on your user or organization.
+
+That install:
+
+- Grants Amplify permission to clone the selected repos
+- Receives webhooks for pushes and pull requests
+- Avoids storing a personal access token (PAT) in Amplify as the day-to-day credential
+
+## Private or public
+
+Both work. The GitHub App must be allowed to access the repository:
+
+- **Public** - easy to fork and screenshot; good for a published sample
+- **Private** - fine for a personal lab; install the app with access to that private repo
+
+<Aside type="tip">
+For this walkthrough either visibility is valid. State which you chose when you create the sample so later screenshots match.
+</Aside>
+
+## What not to do
+
+- Do not paste a classic PAT into Amplify “for convenience” when the App connect flow is available
+- Do not connect Amplify with Terraform for this lab - the lesson is the Console + App path

@@ -1,0 +1,30 @@
+---
+title: Amplify Hosting
+description: What Amplify Hosting does for a static Astro site and what it does not do.
+---
+
+import { Aside } from "@astrojs/starlight/components";
+import Tooltip from "@/components/Tooltip.astro";
+
+## What Amplify Hosting is
+
+<Tooltip term="amplify" label="AWS Amplify Hosting" /> connects to a Git repository, runs a build defined in <Tooltip term="amplify-yml" label="amplify.yml" />, and publishes static files to a CDN-backed URL per branch (and optionally per pull request).
+
+For this lab the sample is <Tooltip term="astro" label="Astro" />: `npm ci`, `astro build`, publish `dist/`.
+
+## What it is not
+
+| Concern | Who owns it in this lab |
+| --- | --- |
+| Day-to-day deploy | Amplify on Git push / PR |
+| Merge quality gate | GitHub Actions + branch protection (<Tooltip term="ci-gate" label="CI gate" />) |
+| Creating the Amplify app | You, once, in the Console (no Terraform) |
+| Custom domain for the sample | Out of scope - use `*.amplifyapp.com` |
+
+<Aside type="note">
+Amplify does **not** wait for your GitHub checks. A push can start a build even if CI is still red. Protect `staging` and `main` so bad code cannot merge.
+</Aside>
+
+## Docs site vs sample app
+
+This walkthrough site is separate documentation (GitHub Pages). The app you connect to Amplify is the sample Astro repo. Do not point Amplify at this walkthrough repository.

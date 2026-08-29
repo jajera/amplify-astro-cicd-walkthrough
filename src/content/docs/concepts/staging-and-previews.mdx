@@ -1,0 +1,33 @@
+---
+title: Staging and PR previews
+description: Long-lived staging versus temporary pull request preview URLs on Amplify.
+---
+
+import { Aside } from "@astrojs/starlight/components";
+import Tooltip from "@/components/Tooltip.astro";
+
+## Two kinds of Amplify environments
+
+| Kind | Git | Amplify URL shape | Lifetime |
+| --- | --- | --- | --- |
+| <Tooltip term="staging" label="Staging" /> | Branch `staging` | `https://staging.<app-id>.amplifyapp.com` | Long-lived |
+| Production | Branch `main` | `https://main.<app-id>.amplifyapp.com` | Long-lived |
+| <Tooltip term="pr-preview" label="PR preview" /> | Open pull request | `https://pr-<n>.<app-id>.amplifyapp.com` | Until PR closes / branch deleted |
+
+Exact hostnames use your Amplify app id. This lab does **not** add custom domains.
+
+## How to use them
+
+1. Feature work lands on a short-lived branch
+2. Open a PR **into `staging`** - CI must pass; Amplify builds a PR preview
+3. Merge to `staging` - validate on the staging Amplify URL
+4. Open a PR **from `staging` into `main`** - same CI gate
+5. Merge to `main` - production Amplify URL updates
+
+<Aside type="caution">
+Do not open feature PRs directly against `main`. Staging is the rehearsal environment.
+</Aside>
+
+## Branch auto-delete
+
+Enable <Tooltip term="branch-auto-delete" label="branch auto-delete" /> on the Amplify app so preview branches disappear when the Git branch is deleted. That cleans up preview URLs; it does **not** delete the Amplify app itself.

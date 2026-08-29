@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="420" viewBox="0 0 960 420" role="img" aria-label="Promotion flow">
+  <rect width="960" height="420" fill="#071014"/>
+  <text x="48" y="48" fill="#22d3ee" font-family="Segoe UI, sans-serif" font-size="20" font-weight="700">Amplify promotion flow</text>
+  <rect x="48" y="80" width="200" height="72" rx="12" fill="#0b171c" stroke="#22d3ee" stroke-opacity="0.35"/>
+  <text x="148" y="122" text-anchor="middle" fill="#eef8fa" font-family="Segoe UI, sans-serif" font-size="18">feature branch</text>
+  <path d="M258 116 H310" stroke="#22d3ee" stroke-width="2"/>
+  <polygon points="310,110 322,116 310,122" fill="#22d3ee"/>
+  <rect x="330" y="80" width="200" height="72" rx="12" fill="#0b171c" stroke="#22d3ee" stroke-opacity="0.35"/>
+  <text x="430" y="112" text-anchor="middle" fill="#eef8fa" font-family="Segoe UI, sans-serif" font-size="18">PR + CI gate</text>
+  <text x="430" y="136" text-anchor="middle" fill="#b7cdd4" font-family="Segoe UI, sans-serif" font-size="14">PR preview URL</text>
+  <path d="M540 116 H592" stroke="#22d3ee" stroke-width="2"/>
+  <polygon points="592,110 604,116 592,122" fill="#22d3ee"/>
+  <rect x="612" y="80" width="300" height="72" rx="12" fill="#0b171c" stroke="#22d3ee" stroke-opacity="0.55"/>
+  <text x="762" y="112" text-anchor="middle" fill="#eef8fa" font-family="Segoe UI, sans-serif" font-size="18">staging</text>
+  <text x="762" y="136" text-anchor="middle" fill="#67e8f9" font-family="Segoe UI, sans-serif" font-size="13">staging.app.amplifyapp.com</text>
+  <path d="M762 152 V200" stroke="#22d3ee" stroke-width="2"/>
+  <polygon points="756,200 762,212 768,200" fill="#22d3ee"/>
+  <rect x="612" y="220" width="300" height="72" rx="12" fill="#0b171c" stroke="#22d3ee" stroke-opacity="0.35"/>
+  <text x="762" y="252" text-anchor="middle" fill="#eef8fa" font-family="Segoe UI, sans-serif" font-size="18">PR staging to main + CI</text>
+  <text x="762" y="276" text-anchor="middle" fill="#b7cdd4" font-family="Segoe UI, sans-serif" font-size="14">same required checks</text>
+  <path d="M762 292 V340" stroke="#22d3ee" stroke-width="2"/>
+  <polygon points="756,340 762,352 768,340" fill="#22d3ee"/>
+  <rect x="612" y="360" width="300" height="48" rx="12" fill="#22d3ee"/>
+  <text x="762" y="390" text-anchor="middle" fill="#04222a" font-family="Segoe UI, sans-serif" font-size="18" font-weight="700">main · main.app.amplifyapp.com</text>
+  <text x="48" y="250" fill="#b7cdd4" font-family="Segoe UI, sans-serif" font-size="15">GitHub Actions = merge gate</text>
+  <text x="48" y="278" fill="#b7cdd4" font-family="Segoe UI, sans-serif" font-size="15">Amplify = build and host on push</text>
+  <text x="48" y="306" fill="#5a7a86" font-family="Segoe UI, sans-serif" font-size="14">No custom domain in this lab</text>
+</svg>

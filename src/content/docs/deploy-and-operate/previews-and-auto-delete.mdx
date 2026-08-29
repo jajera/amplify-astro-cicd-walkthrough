@@ -1,0 +1,39 @@
+---
+title: Previews and auto-delete
+description: Enable Amplify pull request previews and branch auto-delete.
+---
+
+import { Aside } from "@astrojs/starlight/components";
+import Tooltip from "@/components/Tooltip.astro";
+
+## Enable pull request previews
+
+In the Amplify app settings (previews / branch settings - label varies slightly by Console revision):
+
+1. Enable **Pull request previews** (or equivalent) for the connected repository
+2. Ensure webhooks from the <Tooltip term="github-app" label="GitHub App" /> can reach Amplify (the connect flow normally configures this)
+
+Open a test PR (next page) and confirm a URL like:
+
+```text
+https://pr-<number>.<app-id>.amplifyapp.com
+```
+
+That is a <Tooltip term="pr-preview" label="PR preview" />.
+
+## Enable branch auto-delete
+
+Turn on <Tooltip term="branch-auto-delete" label="branch auto-delete" /> so that when the Git feature branch is deleted, Amplify removes the corresponding preview hosting.
+
+<Aside type="note">
+Auto-delete cleans **preview** branches. It does not delete `main`, `staging`, or the Amplify application. Full cleanup is in [Teardown](/deploy-and-operate/teardown/).
+</Aside>
+
+## Why both settings matter
+
+| Setting | Benefit |
+| --- | --- |
+| PR previews | Review the real build before merge |
+| Branch auto-delete | Avoid orphaned preview hosts and extra build noise |
+
+Next: [Prove the flow](/deploy-and-operate/prove-the-flow/).

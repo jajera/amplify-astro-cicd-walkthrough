@@ -1,0 +1,44 @@
+---
+title: Prerequisites
+description: Accounts, tools, and choices before you scaffold the Astro sample.
+---
+
+import { Aside } from "@astrojs/starlight/components";
+import Tooltip from "@/components/Tooltip.astro";
+
+## Accounts
+
+- AWS account with permission to create an <Tooltip term="amplify" label="Amplify Hosting" /> app
+- GitHub user or org where you can create a repository and install the Amplify GitHub App
+
+## Tools
+
+| Tool | Notes |
+| --- | --- |
+| Node.js 22 | Match `.nvmrc` in the sample |
+| npm | Comes with Node |
+| Git | Push branches and open PRs |
+| Browser | Amplify Console |
+
+```bash
+node -v   # expect v22.x
+npm -v
+```
+
+## Choices to make now
+
+1. **Repo visibility** - private or public (both supported; see [GitHub App vs PAT](/concepts/github-app-vs-pat/))
+2. **Repo name** - this lab uses `amplify-astro-cicd` (already reserved under `jajera` for the companion sample)
+3. **Region** - pick any Amplify-supported region and stay consistent in the Console
+
+<Aside type="tip">
+You can follow every scaffold step from scratch in a new folder, or clone [jajera/amplify-astro-cicd](https://github.com/jajera/amplify-astro-cicd) once it contains the finished sample and skip ahead to connecting Amplify.
+</Aside>
+
+## Out of scope
+
+- Custom domains and Route 53 for the sample Amplify app
+- Terraform to create or update the Amplify app
+- Pointing Amplify at this walkthrough docs repo
+
+Next: [Scaffold Astro](/deploy-and-operate/scaffold-astro/).

@@ -1,0 +1,74 @@
+---
+title: Scaffold Astro
+description: Create the minimal Astro sample, amplify.yml, and robots rules for non-main branches.
+---
+
+import { Aside } from "@astrojs/starlight/components";
+import Tooltip from "@/components/Tooltip.astro";
+
+## Create the project
+
+From an empty working directory (or into the existing `amplify-astro-cicd` clone):
+
+```bash
+npm create astro@latest amplify-astro-cicd -- --template minimal --install --no-git --typescript strict
+cd amplify-astro-cicd
+```
+
+Keep the site minimal: one page is enough. The goal is CI/CD, not content design.
+
+Confirm a local build:
+
+```bash
+npm run build
+ls dist
+```
+
+## Add amplify.yml
+
+Create <Tooltip term="amplify-yml" label="amplify.yml" /> at the repository root:
+
+```yaml
+version: 1
+frontend:
+  phases:
+    preBuild:
+      commands:
+        - npm ci
+    build:
+      commands:
+        - npm run build
+        - |
+          if [ "${AWS_BRANCH}" != "main" ]; then
+            printf 'User-agent: *\nDisallow: /\n' > dist/robots.txt
+          fi
+  artifacts:
+    baseDirectory: dist
+    files:
+      - '**/*'
+  cache:
+    paths:
+      - node_modules/**/*
+```
+
+Notes:
+
+- `AWS_BRANCH` is set by Amplify (`main`, `staging`, or a PR branch name)
+- Non-`main` builds write a disallow-all `robots.txt` so previews and staging are less likely to be indexed
+- Artifacts come from `dist/` only - do not publish `node_modules`
+
+Full reference: [amplify.yml](/reference/amplify-yml/).
+
+## Optional README stub
+
+```markdown
+# amplify-astro-cicd
+
+Minimal Astro site for Amplify staging PR previews and GitHub CI
+```
+
+<Aside type="note">
+Do not `git init` yet if you will push into an existing empty GitHub repo. Initialize or add remote in the next step.
+</Aside>
+
+Next: [GitHub branches and CI](/deploy-and-operate/github-branches-and-ci/).

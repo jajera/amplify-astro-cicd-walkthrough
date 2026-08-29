@@ -1,0 +1,50 @@
+---
+title: Promotion flow
+description: Who builds what from feature branch through staging to main.
+---
+
+import { Aside } from "@astrojs/starlight/components";
+import Tooltip from "@/components/Tooltip.astro";
+import DocImage from "@/components/DocImage.astro";
+
+## End-to-end path
+
+```text
+feature branch
+    |  PR targeting staging
+    |  required GitHub checks (CI gate)
+    |  Amplify PR preview URL
+    v
+staging  -->  https://staging.<app-id>.amplifyapp.com
+    |  PR targeting main
+    |  same required checks
+    v
+main     -->  https://main.<app-id>.amplifyapp.com
+```
+
+<DocImage
+  src="/promotion-flow.svg"
+  alt="Feature branch to staging to main with Amplify default URLs"
+/>
+
+## Responsibilities
+
+| Actor | Role |
+| --- | --- |
+| Developer | Branch, PR, respond to review |
+| GitHub Actions | Lint / tests - <Tooltip term="ci-gate" label="CI gate" /> before merge |
+| Branch protection | Blocks merge until checks are green |
+| <Tooltip term="amplify" label="Amplify" /> | Builds on push/PR from <Tooltip term="amplify-yml" label="amplify.yml" />; hosts `dist/` |
+
+<Aside type="note">
+Amplify and GitHub Actions run in parallel on a push. Protection rules are what stop a red build from reaching `staging` or `main`.
+</Aside>
+
+## Sample vs this docs site
+
+| Site | Host | Domain in this project |
+| --- | --- | --- |
+| Walkthrough (you are reading it) | GitHub Pages | `amplify-astro-cicd-walkthrough.johna.kiwi` |
+| Sample Astro app | Amplify | `*.amplifyapp.com` only |
+
+Next: [Prerequisites](/deploy-and-operate/prerequisites/).

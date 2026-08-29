@@ -1,0 +1,49 @@
+---
+title: Prove the flow
+description: Run a feature PR through staging and main using Amplify default URLs.
+---
+
+import { Aside } from "@astrojs/starlight/components";
+import Tooltip from "@/components/Tooltip.astro";
+
+## Feature branch → staging
+
+```bash
+git checkout staging
+git pull
+git checkout -b feature/hello-preview
+# make a small visible change on the home page
+git add .
+git commit -m "feat: visible preview change for amplify lab
+
+Bump homepage copy so the PR preview is easy to recognize."
+git push -u origin feature/hello-preview
+```
+
+1. Open a pull request **into `staging`**
+2. Wait for GitHub <Tooltip term="ci-gate" label="CI" /> to pass
+3. Confirm Amplify builds a <Tooltip term="pr-preview" label="PR preview" /> - open `https://pr-<n>.<app-id>.amplifyapp.com`
+4. Merge the PR
+5. Confirm **`https://staging.<app-id>.amplifyapp.com`** shows the change
+6. Delete the feature branch (local and remote) and confirm the preview disappears if auto-delete is on
+
+## Staging → main
+
+1. Open a pull request from **`staging` into `main`**
+2. Wait for CI
+3. Merge
+4. Confirm **`https://main.<app-id>.amplifyapp.com`** matches staging
+
+<Aside type="tip">
+Keep a short checklist with your app id and the three URL patterns. Reuse it whenever you teach or screenshot this lab.
+</Aside>
+
+## Success criteria
+
+- [ ] PR preview URL served the feature change
+- [ ] Staging URL updated after merge to `staging`
+- [ ] Main URL updated after merge to `main`
+- [ ] Preview host gone after branch delete (with auto-delete enabled)
+- [ ] No custom domain required
+
+Next: [Teardown](/deploy-and-operate/teardown/).

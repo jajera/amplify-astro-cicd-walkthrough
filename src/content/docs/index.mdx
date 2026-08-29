@@ -1,0 +1,38 @@
+---
+title: Amplify Astro CI/CD Walkthrough
+description: Deploy Astro to Amplify with staging, PR previews, GitHub App, CI gates, and teardown.
+template: splash
+hero:
+  tagline: Ship a static Astro site from GitHub to Amplify — staging first, then main, with PR previews and a clean teardown.
+  actions:
+    - text: Get Started
+      link: /deploy-and-operate/prerequisites/
+      icon: right-arrow
+      variant: primary
+    - text: Promotion flow
+      link: /architecture/promotion-flow/
+      variant: minimal
+---
+
+import { Card, CardGrid } from "@astrojs/starlight/components";
+import Tooltip from "@/components/Tooltip.astro";
+
+## Why this lab
+
+You want a real front-end CI/CD path on AWS without Terraform deploys or custom DNS for the app under test. <Tooltip term="amplify" label="Amplify Hosting" /> builds from Git. GitHub Actions is the merge gate. Default `*.amplifyapp.com` URLs are enough.
+
+This walkthrough is the guide. The companion sample repo [jajera/amplify-astro-cicd](https://github.com/jajera/amplify-astro-cicd) is what you build (or clone) while following the steps.
+
+## What you will do
+
+<CardGrid>
+  <Card title="Learn the pieces" icon="open-book" link="/concepts/amplify-hosting/">
+    Amplify Hosting, the GitHub App, staging vs PR previews, private or public repos.
+  </Card>
+  <Card title="See the promotion flow" icon="puzzle" link="/architecture/promotion-flow/">
+    feature branch → staging → main, and who builds what.
+  </Card>
+  <Card title="Run the lab" icon="rocket" link="/deploy-and-operate/prerequisites/">
+    Scaffold Astro, connect Amplify, prove previews, then tear down.
+  </Card>
+</CardGrid>
