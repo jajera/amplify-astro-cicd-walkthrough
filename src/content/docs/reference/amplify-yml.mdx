@@ -1,0 +1,52 @@
+---
+title: amplify.yml
+description: Amplify build specification for the Astro sample and notes for other static generators.
+---
+
+import { Aside } from "@astrojs/starlight/components";
+
+## Astro (this lab)
+
+```yaml
+version: 1
+frontend:
+  phases:
+    preBuild:
+      commands:
+        - npm ci
+    build:
+      commands:
+        - npm run build
+        - |
+          if [ "${AWS_BRANCH}" != "main" ]; then
+            printf 'User-agent: *\nDisallow: /\n' > dist/robots.txt
+          fi
+  artifacts:
+    baseDirectory: dist
+    files:
+      - '**/*'
+  cache:
+    paths:
+      - node_modules/**/*
+```
+
+| Field | Value |
+| --- | --- |
+| Install | `npm ci` |
+| Build | `npm run build` (`astro build`) |
+| Publish | `dist/` |
+| Cache | `node_modules` |
+
+## Other generators
+
+The Amplify promotion flow is the same. Only install/build/artifact paths change:
+
+| Stack | Typical install | Typical build | Artifact dir |
+| --- | --- | --- | --- |
+| Astro | `npm ci` | `npm run build` | `dist` |
+| Jekyll | `bundle install` | `bundle exec jekyll build` | `_site` |
+| Zensical | follow that tool’s docs | follow that tool’s docs | its output dir |
+
+<Aside type="note">
+This walkthrough only exercises Astro end-to-end. Treat Jekyll and Zensical as swap-in build blocks, not separate labs.
+</Aside>

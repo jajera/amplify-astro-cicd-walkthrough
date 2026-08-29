@@ -1,0 +1,38 @@
+---
+title: Troubleshooting
+description: Common failures when connecting Amplify, building Astro, or using PR previews.
+---
+
+import { Aside } from "@astrojs/starlight/components";
+
+## Build fails on Amplify
+
+| Symptom | Check |
+| --- | --- |
+| `npm ci` fails | `package-lock.json` committed; Node version compatible |
+| Empty or wrong site | `artifacts.baseDirectory` is `dist`; `astro build` writes there |
+| Old content | Confirm the Amplify job is for the branch you think; hard-refresh CDN |
+
+## GitHub connection
+
+| Symptom | Check |
+| --- | --- |
+| Cannot see the repo | Amplify GitHub App lacks access to that private repo |
+| No PR previews | Previews disabled; or webhooks missing after App reinstall |
+| Builds on push but bad code merged | Branch protection / CI not required - Amplify does not wait for checks |
+
+## Previews and auto-delete
+
+| Symptom | Check |
+| --- | --- |
+| Preview URL 404 after merge | Expected if the PR branch was deleted and auto-delete is on |
+| Preview remains after branch delete | Auto-delete off; delete the Amplify branch manually |
+| Staging looks fine, main does not | `staging` → `main` PR not merged; or main build failed |
+
+## Robots on non-main
+
+If staging or a preview is being indexed, confirm the `AWS_BRANCH != main` step wrote `dist/robots.txt` and that the Amplify job for that branch succeeded.
+
+<Aside type="note">
+This walkthrough docs site on GitHub Pages is unrelated to Amplify build failures for the sample app.
+</Aside>

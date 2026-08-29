@@ -1,0 +1,37 @@
+---
+title: Teardown
+description: Delete the Amplify app and optional GitHub cleanup after the lab.
+---
+
+import { Aside } from "@astrojs/starlight/components";
+import Tooltip from "@/components/Tooltip.astro";
+
+## Delete the Amplify app
+
+1. AWS Console → Amplify → your lab app
+2. **App settings** → **General** → **Delete app** (wording may vary)
+3. Confirm deletion
+
+This removes:
+
+- `main` and `staging` hosting
+- Any remaining <Tooltip term="pr-preview" label="PR preview" /> hosts
+- Build history for that app
+
+<Aside type="caution">
+<Tooltip term="branch-auto-delete" label="Branch auto-delete" /> only removes preview branches when Git branches disappear. **Deleting the Amplify app** is what ends hosting cost for the lab.
+</Aside>
+
+## Optional GitHub cleanup
+
+- Delete feature branches you no longer need
+- Keep or delete the `amplify-astro-cicd` repository - your choice
+- You can leave the Amplify GitHub App installed for future labs, or remove app access to this repo under GitHub → Settings → Applications
+
+## What you should still have
+
+This walkthrough docs site is unrelated to the Amplify app teardown. It stays on GitHub Pages.
+
+## Cost reminder
+
+See [Cost](/reference/cost/). A same-day create and delete is typically a negligible Hosting bill if you are not running huge builds.

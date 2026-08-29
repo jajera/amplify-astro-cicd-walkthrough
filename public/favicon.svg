@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="none" role="img" aria-label="Amplify Astro CI/CD">
+  <rect width="32" height="32" rx="8" fill="#071014"/>
+  <path d="M8 22 L16 8 L24 22" stroke="#22d3ee" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M11 17 H21" stroke="#67e8f9" stroke-width="2" stroke-linecap="round"/>
+</svg>

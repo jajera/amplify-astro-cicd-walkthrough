@@ -1,0 +1,76 @@
+---
+title: GitHub branches and CI
+description: Create main and staging, add a CI workflow, and protect promotion paths.
+---
+
+import { Aside } from "@astrojs/starlight/components";
+import Tooltip from "@/components/Tooltip.astro";
+
+## Create the GitHub repository
+
+1. Create `amplify-astro-cicd` under your user or org (private or public)
+2. Push your local scaffold as `main`
+
+```bash
+git init -b main
+git add .
+git commit -m "feat: scaffold minimal astro sample for amplify
+
+Initial Astro app with amplify.yml for Hosting builds."
+git remote add origin git@github.com:<org>/amplify-astro-cicd.git
+git push -u origin main
+```
+
+## Add the staging branch
+
+```bash
+git checkout -b staging
+git push -u origin staging
+git checkout main
+```
+
+Amplify will use both branch names later. Feature work always starts from a new branch off `staging` or `main` and opens a PR into **`staging` first**.
+
+## Minimal CI gate
+
+Add `.github/workflows/ci.yml`:
+
+```yaml
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main, staging]
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+      - run: npm ci
+      - run: npm run build
+```
+
+This is the <Tooltip term="ci-gate" label="CI gate" /> Amplify will not enforce for you.
+
+## Branch protection (recommended)
+
+On `staging` and `main`:
+
+- Require a pull request before merging
+- Require the CI workflow to pass
+- Disallow force pushes
+
+<Aside type="caution">
+Feature PRs must target `staging`. Only promote `staging` → `main` after you have validated the staging Amplify URL.
+</Aside>
+
+Next: [Create Amplify app](/deploy-and-operate/create-amplify-app/).

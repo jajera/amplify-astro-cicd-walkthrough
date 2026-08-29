@@ -1,0 +1,32 @@
+---
+title: Cost
+description: High-level Amplify Hosting cost notes for this short lab.
+---
+
+import { Aside } from "@astrojs/starlight/components";
+
+## What you pay for
+
+Amplify Hosting billing is driven mainly by:
+
+- Build minutes (every push and PR preview)
+- Hosting / data transfer for served traffic
+
+AWS publishes current rates on the Amplify pricing page. Do not hard-code dollar figures in runbooks - they change.
+
+## Lab expectations
+
+| Practice | Effect |
+| --- | --- |
+| Tear down the same day | Keeps Hosting duration tiny |
+| Few small PRs | Few build minutes |
+| Noisy PR rebuilds | More build minutes |
+| Default `amplifyapp.com` URLs | No Route 53 or custom cert cost for the sample |
+
+<Aside type="tip">
+For a quiet create → prove → delete run, expect a bill that is effectively pennies for most accounts inside free-tier or low usage. Always check Cost Explorer if you leave apps running.
+</Aside>
+
+## Related AWS docs
+
+- [AWS Amplify pricing](https://aws.amazon.com/amplify/pricing/)
