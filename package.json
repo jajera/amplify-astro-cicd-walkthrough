@@ -5,8 +5,9 @@
   "type": "module",
   "scripts": {
     "dev": "astro dev",
-    "build": "npm run generate:og-image && astro build",
+    "build": "npm run generate:diagram && npm run generate:og-image && astro build",
     "preview": "astro preview",
+    "generate:diagram": "node scripts/generate-diagrams.mjs",
     "generate:og-image": "node scripts/generate-og-image.mjs",
     "format": "prettier --write .",
     "lint": "markdownlint-cli2 \"src/**/*.mdx\""

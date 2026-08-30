@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="980" height="420" viewBox="0 0 980 420" fill="none" color-scheme="light">
+  <defs><linearGradient id="bg" x1="0" y1="0" x2="0" y2="1" gradientUnits="objectBoundingBox">
+      <stop stop-color="#f7fbfc"/>
+      <stop offset="1" stop-color="#eef4f6"/>
+    </linearGradient></defs>
+  <rect width="980" height="420" rx="12" fill="url(#bg)"/>
+  <rect x="1" y="1" width="978" height="418" rx="11" stroke="#c5d4d8" stroke-width="1" fill="none" opacity="0.7"/>
+  
+  <text x="490" y="34" text-anchor="middle" fill="#102830" font-family="sans-serif" font-size="16" font-weight="600">Branch protection on staging and main</text>
+
+  <rect x="24" y="56" width="300" height="340" rx="12" fill="#ffffff" stroke="#c5d4d8" stroke-width="1"/>
+  <text x="40" y="82" fill="#3a5560" font-family="sans-serif" font-size="11" font-weight="600">Allowed path</text>
+  <g transform="translate(150 104) scale(0.046875)">
+<path fill-rule="evenodd" clip-rule="evenodd" d="M8 0C3.58 0 0 3.58 0 8C0 11.54 2.29 14.53 5.47 15.59C5.87 15.66 6.02 15.42 6.02 15.21C6.02 15.02 6.01 14.39 6.01 13.72C4 14.09 3.48 13.23 3.32 12.78C3.23 12.55 2.84 11.84 2.5 11.65C2.22 11.5 1.82 11.13 2.49 11.12C3.12 11.11 3.57 11.7 3.72 11.94C4.44 13.15 5.59 12.81 6.05 12.6C6.12 12.08 6.33 11.73 6.56 11.53C4.78 11.33 2.92 10.64 2.92 7.58C2.92 6.71 3.23 5.99 3.74 5.43C3.66 5.23 3.38 4.41 3.82 3.31C3.82 3.31 4.49 3.1 6.02 4.13C6.66 3.95 7.34 3.86 8.02 3.86C8.7 3.86 9.38 3.95 10.02 4.13C11.55 3.09 12.22 3.31 12.22 3.31C12.66 4.41 12.38 5.23 12.3 5.43C12.81 5.99 13.12 6.7 13.12 7.58C13.12 10.65 11.25 11.33 9.47 11.53C9.76 11.78 10.01 12.26 10.01 13.01C10.01 14.08 10 14.94 10 15.21C10 15.42 10.15 15.67 10.55 15.59C13.71 14.53 16 11.53 16 8C16 3.58 12.42 0 8 0Z" transform="scale(64)" fill="#1B1F23"/>
+</g>
+  <text x="174" y="174" text-anchor="middle" fill="#102830" font-family="sans-serif" font-size="13" font-weight="600">Pull request</text><text x="174" y="190" text-anchor="middle" fill="#3a5560" font-family="sans-serif" font-size="11">only way to land</text>
+  <rect x="98.8" y="220" width="150.4" height="28" rx="8" fill="#e8f2f5" stroke="#1d6b5a" stroke-width="1"/>
+  <text x="174" y="238" text-anchor="middle" fill="#102830" font-family="sans-serif" font-size="12" font-weight="600">feature → staging</text>
+  <rect x="109.6" y="272" width="128.8" height="28" rx="8" fill="#e8f2f5" stroke="#1d6b5a" stroke-width="1"/>
+  <text x="174" y="290" text-anchor="middle" fill="#102830" font-family="sans-serif" font-size="12" font-weight="600">staging → main</text>
+  <text x="174" y="344" text-anchor="middle" fill="#3a5560" font-family="sans-serif" font-size="11">wait for green checks</text>
+  <text x="174" y="360" text-anchor="middle" fill="#3a5560" font-family="sans-serif" font-size="11">then merge</text>
+
+  <rect x="340" y="56" width="340" height="340" rx="12" fill="#e8f6f1" stroke="#0b6f88" stroke-width="2"/>
+  <text x="356" y="82" fill="#3a5560" font-family="sans-serif" font-size="11" font-weight="600">Required status checks</text>
+  
+  <rect x="460" y="130" width="100" height="28" rx="8" fill="#e8f2f5" stroke="#0b6f88" stroke-width="1"/>
+  <text x="510" y="148" text-anchor="middle" fill="#102830" font-family="sans-serif" font-size="12" font-weight="600">CI / build</text>
+  <rect x="449.2" y="178" width="121.60000000000001" height="28" rx="8" fill="#e8f2f5" stroke="#0b6f88" stroke-width="1"/>
+  <text x="510" y="196" text-anchor="middle" fill="#102830" font-family="sans-serif" font-size="12" font-weight="600">markdown-lint</text>
+  <rect x="434.8" y="226" width="150.4" height="28" rx="8" fill="#e8f2f5" stroke="#0b6f88" stroke-width="1"/>
+  <text x="510" y="244" text-anchor="middle" fill="#102830" font-family="sans-serif" font-size="12" font-weight="600">commitmsg-conform</text>
+  <text x="510" y="360" text-anchor="middle" fill="#3a5560" font-family="sans-serif" font-size="11">must pass before merge</text>
+
+  <rect x="696" y="56" width="270" height="340" rx="12" fill="#f8eaea" stroke="#9a4040" stroke-width="2"/>
+  <text x="712" y="82" fill="#9a4040" font-family="sans-serif" font-size="11" font-weight="600">Blocked</text>
+  <rect x="777.4" y="142" width="107.2" height="28" rx="8" fill="#e8f2f5" stroke="#9a4040" stroke-width="1"/>
+  <text x="831" y="160" text-anchor="middle" fill="#102830" font-family="sans-serif" font-size="12" font-weight="600">direct push</text>
+  <rect x="781" y="202" width="100" height="28" rx="8" fill="#e8f2f5" stroke="#9a4040" stroke-width="1"/>
+  <text x="831" y="220" text-anchor="middle" fill="#102830" font-family="sans-serif" font-size="12" font-weight="600">force push</text>
+  <rect x="755.8" y="262" width="150.4" height="28" rx="8" fill="#e8f2f5" stroke="#9a4040" stroke-width="1"/>
+  <text x="831" y="280" text-anchor="middle" fill="#102830" font-family="sans-serif" font-size="12" font-weight="600">merge with red CI</text>
+  <text x="831" y="360" text-anchor="middle" fill="#3a5560" font-family="sans-serif" font-size="11">on staging and main</text>
+  
+</svg>

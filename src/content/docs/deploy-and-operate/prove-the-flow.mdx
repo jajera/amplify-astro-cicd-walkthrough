@@ -4,9 +4,11 @@ description: Run a feature PR through staging and main using Amplify default URL
 ---
 
 import { Aside } from "@astrojs/starlight/components";
-import Tooltip from "@/components/Tooltip.astro";
+import DocImage from "@/components/DocImage.astro";
 
 ## Feature branch → staging
+
+Create an issue, then from **`staging`**:
 
 ```bash
 git checkout staging
@@ -17,22 +19,125 @@ git add .
 git commit -m "feat: visible preview change for amplify lab
 
 Bump homepage copy so the PR preview is easy to recognize."
-git push -u origin feature/hello-preview
+git push -u origin HEAD
 ```
 
-1. Open a pull request **into `staging`**
-2. Wait for GitHub <Tooltip term="ci-gate" label="CI" /> to pass
-3. Confirm Amplify builds a <Tooltip term="pr-preview" label="PR preview" /> - open `https://pr-<n>.<app-id>.amplifyapp.com`
-4. Merge the PR
-5. Confirm **`https://staging.<app-id>.amplifyapp.com`** shows the change
-6. Delete the feature branch (local and remote) and confirm the preview disappears if auto-delete is on
+### 1. Open a pull request into `staging`
+
+Open the PR against **`staging`** (not `main`). Link the issue with `Closes #N`.
+
+Example: [jajera/amplify-astro-cicd#4](https://github.com/jajera/amplify-astro-cicd/pull/4)
+
+<DocImage
+  src="prove-pr-description.png"
+  alt="GitHub PR description — summary, Closes issue, test plan for Amplify preview lab"
+/>
+
+### 2. Wait for GitHub CI to pass
+
+Wait until GitHub checks are green (CI build, markdown-lint, commitmsg-conform) **and** Amplify Web Preview has posted a URL.
+
+<DocImage
+  src="prove-pr-checks-passed.png"
+  alt="GitHub PR — all checks passed including Amplify Web Preview and CI build"
+/>
+
+### 3. Confirm the Amplify PR preview
+
+Amplify posts a preview URL on the PR (shape `https://pr-<n>.<app-id>.amplifyapp.com`). Open it and confirm the homepage marker is visible.
+
+<DocImage
+  src="prove-amplify-preview-comment.png"
+  alt="Amplify bot comment on the PR with the PR preview URL"
+/>
+
+<DocImage
+  src="prove-pr-preview-url.png"
+  alt="Browser open on the Amplify PR preview URL with the hello-preview homepage marker"
+/>
+
+### 4. Merge the PR
+
+Squash-merge into **`staging`** (not `main`). With GitHub auto-delete head branches on, the feature branch disappears after merge.
+
+<DocImage
+  src="prove-pr-merged.png"
+  alt="GitHub PR #4 merged into staging from feature/hello-preview"
+/>
+
+<DocImage
+  src="prove-pr-merge-success.png"
+  alt="GitHub — pull request successfully merged and closed"
+/>
+
+### 5. Confirm staging shows the change
+
+Open **`https://staging.<app-id>.amplifyapp.com`** and wait for Amplify to finish deploying `staging`. Confirm the homepage marker is live.
+
+<DocImage
+  src="prove-staging-after-merge.png"
+  alt="Browser on staging amplifyapp.com URL showing the hello-preview homepage marker after merge"
+/>
+
+### 6. Confirm the preview host is gone
+
+After the feature branch is gone, Amplify disconnects the PR preview. Opening the old `https://pr-<n>.<app-id>.amplifyapp.com` URL (or the preview branch in the Console) should fail — for example **Branch pr-4 not found.**
+
+<DocImage
+  src="prove-preview-branch-gone.png"
+  alt="Amplify — Branch pr-4 not found after preview auto-disconnection"
+/>
 
 ## Staging → main
 
-1. Open a pull request from **`staging` into `main`**
-2. Wait for CI
-3. Merge
-4. Confirm **`https://main.<app-id>.amplifyapp.com`** matches staging
+<Aside type="caution">
+Before this promote: confirm **Restrict deletions** is on for `staging` (or classic **Allow deletions** off). With **Automatically delete head branches** enabled, merging `staging` → `main` otherwise deletes the Git `staging` branch (and Amplify auto-disconnection drops the staging host).
+</Aside>
+
+### 1. Open a pull request from `staging` into `main`
+
+Promote only after staging looks right. Open the PR **into `main` from `staging`** (not from the feature branch).
+
+Example: [jajera/amplify-astro-cicd#5](https://github.com/jajera/amplify-astro-cicd/pull/5)
+
+<DocImage
+  src="prove-staging-main-pr.png"
+  alt="GitHub PR #5 description — promote staging homepage marker to main, test plan"
+/>
+
+### 2. Wait for CI
+
+Wait until required GitHub checks are green. Previews stay off for `main`, so you should **not** expect an Amplify Web Preview on this PR.
+
+<DocImage
+  src="prove-staging-main-checks.png"
+  alt="GitHub PR #5 — all checks passed, no conflicts, Squash and merge ready"
+/>
+
+### 3. Merge
+
+Squash-merge into **`main`**.
+
+<DocImage
+  src="prove-staging-main-merged.png"
+  alt="GitHub PR #5 Merged — 1 commit into main from staging"
+/>
+
+### 4. Confirm main shows the change
+
+In Amplify Hosting, wait until **`main`** finishes deploying (status moves from Deploying to successful).
+
+<DocImage
+  src="prove-main-amplify-deploy.png"
+  alt="Amplify Hosting — main production branch deploying after staging promote"
+/>
+
+Then open **`https://main.<app-id>.amplifyapp.com`** and confirm it matches staging (homepage marker visible).
+
+<DocImage
+  src="prove-main-after-merge.png"
+  alt="Browser on main amplifyapp.com URL showing the hello-preview homepage marker after promote"
+/>
 
 <Aside type="tip">
 Keep a short checklist with your app id and the three URL patterns. Reuse it whenever you teach or screenshot this lab.
@@ -43,7 +148,7 @@ Keep a short checklist with your app id and the three URL patterns. Reuse it whe
 - [ ] PR preview URL served the feature change
 - [ ] Staging URL updated after merge to `staging`
 - [ ] Main URL updated after merge to `main`
-- [ ] Preview host gone after branch delete (with auto-delete enabled)
+- [ ] Preview host gone (automatic or Console delete)
 - [ ] No custom domain required
 
 Next: [Teardown](/deploy-and-operate/teardown/).
