@@ -5,26 +5,37 @@ description: What Amplify Hosting does for a static Astro site and what it does 
 
 import { Aside } from "@astrojs/starlight/components";
 import Tooltip from "@/components/Tooltip.astro";
+import ThemeDiagram from "@/components/ThemeDiagram.astro";
+import DiagramIconCredit from "@/components/DiagramIconCredit.astro";
 
-## What Amplify Hosting is
+<Tooltip term="amplify" label="AWS Amplify Hosting" /> builds and hosts front-end web apps on a CDN. Git-connected continuous deployment is **one** option — this lab uses that path with <Tooltip term="astro" label="Astro" /> (`npm ci` → `astro build` → `dist/`).
 
-<Tooltip term="amplify" label="AWS Amplify Hosting" /> connects to a Git repository, runs a build defined in <Tooltip term="amplify-yml" label="amplify.yml" />, and publishes static files to a CDN-backed URL per branch (and optionally per pull request).
+<ThemeDiagram
+  dark="amplify-hosting-diagram.svg"
+  light="amplify-hosting-diagram-light.svg"
+  alt="Deploy options with Git connected selected for this lab, then GitHub to Amplify amplify.yml build to CDN default amplifyapp.com hostname"
+/>
 
-For this lab the sample is <Tooltip term="astro" label="Astro" />: `npm ci`, `astro build`, publish `dist/`.
+## Who owns what
 
-## What it is not
-
-| Concern | Who owns it in this lab |
+| Concern | Owner in this lab |
 | --- | --- |
 | Day-to-day deploy | Amplify on Git push / PR |
 | Merge quality gate | GitHub Actions + branch protection (<Tooltip term="ci-gate" label="CI gate" />) |
-| Creating the Amplify app | You, once, in the Console (no Terraform) |
-| Custom domain for the sample | Out of scope - use `*.amplifyapp.com` |
+| Creating the Amplify app | You, once, in the Console |
 
 <Aside type="note">
-Amplify does **not** wait for your GitHub checks. A push can start a build even if CI is still red. Protect `staging` and `main` so bad code cannot merge.
+Amplify does **not** wait for your GitHub checks. Protect `staging` and `main` so red CI cannot merge.
 </Aside>
 
 ## Docs site vs sample app
 
-This walkthrough site is separate documentation (GitHub Pages). The app you connect to Amplify is the sample Astro repo. Do not point Amplify at this walkthrough repository.
+<ThemeDiagram
+  dark="docs-vs-sample-diagram.svg"
+  light="docs-vs-sample-diagram-light.svg"
+  alt="Walkthrough on GitHub Pages versus sample Astro app on Amplify Hosting"
+/>
+
+Next: [GitHub App vs PAT](/concepts/github-app-vs-pat/).
+
+<DiagramIconCredit />

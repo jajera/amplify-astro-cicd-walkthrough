@@ -19,6 +19,7 @@ export default defineConfig({
       ],
       components: {
         ThemeSelect: "./src/components/ThemeSelect.astro",
+        Head: "./src/components/Head.astro",
       },
       social: [
         {
@@ -44,13 +45,10 @@ export default defineConfig({
           ],
         },
         {
-          label: "Architecture",
-          items: [{ slug: "architecture/promotion-flow" }],
-        },
-        {
           label: "Deploy and Operate",
           items: [
             { slug: "deploy-and-operate/prerequisites" },
+            { slug: "deploy-and-operate/create-github-repo" },
             { slug: "deploy-and-operate/scaffold-astro" },
             { slug: "deploy-and-operate/github-branches-and-ci" },
             { slug: "deploy-and-operate/create-amplify-app" },

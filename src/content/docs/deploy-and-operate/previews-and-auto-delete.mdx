@@ -1,39 +1,71 @@
 ---
-title: Previews and auto-delete
-description: Enable Amplify pull request previews and branch auto-delete.
+title: Previews and automatic cleanup
+description: Enable Amplify pull request previews and automatic branch deletion.
 ---
 
 import { Aside } from "@astrojs/starlight/components";
-import Tooltip from "@/components/Tooltip.astro";
+import DocImage from "@/components/DocImage.astro";
 
 ## Enable pull request previews
 
-In the Amplify app settings (previews / branch settings - label varies slightly by Console revision):
+1. Open the Amplify app → **Hosting** → **Previews**
+2. Select branch **`staging`** → **Edit settings**
+3. Turn **Pull request previews** **Enabled** → **Confirm**
+4. Leave **`main`** previews **Disabled** for this lab
 
-1. Enable **Pull request previews** (or equivalent) for the connected repository
-2. Ensure webhooks from the <Tooltip term="github-app" label="GitHub App" /> can reach Amplify (the connect flow normally configures this)
+<DocImage
+  src="amplify-previews-staging-enabled.png"
+  alt="Amplify Manage preview settings for staging — Pull request previews Enabled"
+/>
 
-Open a test PR (next page) and confirm a URL like:
+After save, **Hosting → Previews** should show **`staging` Enabled** and **`main` Disabled**:
+
+<DocImage
+  src="amplify-previews-status-table.png"
+  alt="Amplify Previews table — main Disabled, staging Enabled"
+/>
+
+<Aside type="note">
+The Console may warn that previews are limited for public repos with Amplify **backend** templates. This lab is Hosting-only (static Astro), so a public repo is fine.
+</Aside>
+
+You will prove a preview URL on the next page:
 
 ```text
 https://pr-<number>.<app-id>.amplifyapp.com
 ```
 
-That is a <Tooltip term="pr-preview" label="PR preview" />.
+## Automatic cleanup
 
-## Enable branch auto-delete
+Two separate switches — GitHub deletes the **Git** head branch; Amplify disconnects the matching Amplify branch (preview hosts after feature merges; also `staging` if Git `staging` was deleted).
 
-Turn on <Tooltip term="branch-auto-delete" label="branch auto-delete" /> so that when the Git feature branch is deleted, Amplify removes the corresponding preview hosting.
+### GitHub — delete head branches after merge
 
-<Aside type="note">
-Auto-delete cleans **preview** branches. It does not delete `main`, `staging`, or the Amplify application. Full cleanup is in [Teardown](/deploy-and-operate/teardown/).
+1. Open the sample repo on GitHub → **Settings** → **General**
+2. Under **Pull Requests**, enable **Automatically delete head branches**
+
+<DocImage
+  src="github-auto-delete-head-branches.png"
+  alt="GitHub Settings — Automatically delete head branches enabled"
+/>
+
+### Amplify — remove preview hosts when the Git branch is gone
+
+1. Open the Amplify app → **Hosting** / **App settings** → **Repository settings** (or **Branch settings**) → **Edit**
+2. Enable **Branch auto-disconnection** — “Automatically disconnect branches in Amplify when deleting a branch in your source repository”
+3. Leave **Branch autodetection** off for this lab (you already connected `main` and `staging` manually)
+4. Keep **Production branch** as **`main`**
+5. **Save**
+
+<DocImage
+  src="amplify-branch-auto-disconnection.png"
+  alt="Amplify Edit repository settings — branch auto-disconnection enabled, autodetection off, production branch main"
+/>
+
+Without auto-disconnection, delete the preview branch in the Console yourself after the Git branch is gone.
+
+<Aside type="caution">
+Auto-delete head branches removes the PR **head**. That is fine for feature → `staging`. For `staging` → `main`, protect `staging` first (**Restrict deletions** on a ruleset, or classic **Allow deletions** off) — see [GitHub branches and CI](/deploy-and-operate/github-branches-and-ci/#branch-protection).
 </Aside>
-
-## Why both settings matter
-
-| Setting | Benefit |
-| --- | --- |
-| PR previews | Review the real build before merge |
-| Branch auto-delete | Avoid orphaned preview hosts and extra build noise |
 
 Next: [Prove the flow](/deploy-and-operate/prove-the-flow/).

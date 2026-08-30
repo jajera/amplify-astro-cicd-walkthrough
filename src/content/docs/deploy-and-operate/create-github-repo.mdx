@@ -1,0 +1,30 @@
+---
+title: Create the GitHub repository
+description: Create the sample repository on GitHub and clone it locally.
+---
+
+import { Aside } from "@astrojs/starlight/components";
+
+## Create the repository
+
+1. Open GitHub → **New repository**
+2. **Owner** - your user or org
+3. **Repository name** - `amplify-astro-cicd`
+4. **Visibility** - public or private
+5. Add a **README** so `main` exists (required so later work can go through pull requests)
+6. Create the repository
+
+## Clone locally
+
+```bash
+git clone git@github.com:<owner>/amplify-astro-cicd.git
+cd amplify-astro-cicd
+```
+
+Use the HTTPS URL if that is how you authenticate.
+
+<Aside type="tip">
+Skip create and clone if you already have the repo. Confirm you are in its working directory (`pwd` / `git status`) before the next step.
+</Aside>
+
+Next: [Scaffold Astro](/deploy-and-operate/scaffold-astro/).

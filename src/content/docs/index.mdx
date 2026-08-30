@@ -3,15 +3,19 @@ title: Amplify Astro CI/CD Walkthrough
 description: Deploy Astro to Amplify with staging, PR previews, GitHub App, CI gates, and teardown.
 template: splash
 hero:
-  tagline: Ship a static Astro site from GitHub to Amplify — staging first, then main, with PR previews and a clean teardown.
+  tagline: Ship a static Astro site from GitHub to Amplify - staging first, then main, with PR previews and a clean teardown.
   actions:
     - text: Get Started
-      link: /deploy-and-operate/prerequisites/
+      link: /concepts/amplify-hosting/
       icon: right-arrow
       variant: primary
-    - text: Promotion flow
-      link: /architecture/promotion-flow/
-      variant: minimal
+    - text: Sample app on GitHub
+      link: https://github.com/jajera/amplify-astro-cicd
+      icon: external
+      variant: secondary
+      attrs:
+        target: _blank
+        rel: noopener noreferrer
 ---
 
 import { Card, CardGrid } from "@astrojs/starlight/components";
@@ -19,7 +23,7 @@ import Tooltip from "@/components/Tooltip.astro";
 
 ## Why this lab
 
-You want a real front-end CI/CD path on AWS without Terraform deploys or custom DNS for the app under test. <Tooltip term="amplify" label="Amplify Hosting" /> builds from Git. GitHub Actions is the merge gate. Default `*.amplifyapp.com` URLs are enough.
+You want a real front-end CI/CD path. <Tooltip term="amplify" label="Amplify Hosting" /> builds from Git. GitHub Actions is the merge gate.
 
 This walkthrough is the guide. The companion sample repo [jajera/amplify-astro-cicd](https://github.com/jajera/amplify-astro-cicd) is what you build (or clone) while following the steps.
 
@@ -29,8 +33,8 @@ This walkthrough is the guide. The companion sample repo [jajera/amplify-astro-c
   <Card title="Learn the pieces" icon="open-book" link="/concepts/amplify-hosting/">
     Amplify Hosting, the GitHub App, staging vs PR previews, private or public repos.
   </Card>
-  <Card title="See the promotion flow" icon="puzzle" link="/architecture/promotion-flow/">
-    feature branch → staging → main, and who builds what.
+  <Card title="Staging and previews" icon="puzzle" link="/concepts/staging-and-previews/">
+    feature branch to staging to main, and who builds what.
   </Card>
   <Card title="Run the lab" icon="rocket" link="/deploy-and-operate/prerequisites/">
     Scaffold Astro, connect Amplify, prove previews, then tear down.

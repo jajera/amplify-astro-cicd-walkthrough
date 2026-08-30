@@ -1,45 +1,44 @@
 ---
 title: GitHub branches and CI
-description: Create main and staging, add a CI workflow, and protect promotion paths.
+description: Add staging and the build CI gate through an issue, branch, and pull request.
 ---
 
 import { Aside } from "@astrojs/starlight/components";
 import Tooltip from "@/components/Tooltip.astro";
+import ThemeDiagram from "@/components/ThemeDiagram.astro";
+import DiagramIconCredit from "@/components/DiagramIconCredit.astro";
+import DocImage from "@/components/DocImage.astro";
 
-## Create the GitHub repository
+Do **not** push straight to `main` or `staging`. Issue → branch → PR → wait for checks → merge.
 
-1. Create `amplify-astro-cicd` under your user or org (private or public)
-2. Push your local scaffold as `main`
+## Create the staging branch on GitHub
+
+On GitHub: **Branches** → create **`staging`** from **`main`**.
+
+Amplify will use both branch names later. Feature work opens a PR into **`staging` first**.
+
+## Open an issue
+
+Create an issue, for example: **Add CI build gate for main and staging**.
+
+## Create a branch
 
 ```bash
-git init -b main
-git add .
-git commit -m "feat: scaffold minimal astro sample for amplify
-
-Initial Astro app with amplify.yml for Hosting builds."
-git remote add origin git@github.com:<org>/amplify-astro-cicd.git
-git push -u origin main
-```
-
-## Add the staging branch
-
-```bash
-git checkout -b staging
-git push -u origin staging
+git fetch origin
 git checkout main
+git pull origin main
+git checkout -b feat/ci-build-gate
 ```
 
-Amplify will use both branch names later. Feature work always starts from a new branch off `staging` or `main` and opens a PR into **`staging` first**.
+## Add the CI gate
 
-## Minimal CI gate
-
-Add `.github/workflows/ci.yml`:
+Create `.github/workflows/ci.yml`:
 
 ```yaml
 name: CI
 
 on:
-  pull_request:
+  pull_request: {}
   push:
     branches: [main, staging]
 
@@ -50,8 +49,8 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
         with:
           node-version: "22"
           cache: npm
@@ -59,18 +58,91 @@ jobs:
       - run: npm run build
 ```
 
-This is the <Tooltip term="ci-gate" label="CI gate" /> Amplify will not enforce for you.
+This is the <Tooltip term="ci-gate" label="CI gate" /> Amplify will not enforce for you. Hygiene workflows from the previous step already run on every PR.
 
-## Branch protection (recommended)
+## Commit, PR, wait, merge
 
-On `staging` and `main`:
+```bash
+git add .github/workflows/ci.yml
+git commit -m "$(cat <<'EOF'
+ci: add build gate for main and staging
 
-- Require a pull request before merging
-- Require the CI workflow to pass
-- Disallow force pushes
+Run npm ci and npm run build on pull requests and on pushes
+to main and staging.
+EOF
+)"
+git push -u origin HEAD
+```
+
+Open a PR into **`main`**, link the issue (`Closes #N`), wait for checks (including commitmsg-conform and markdown-lint), then merge.
+
+```bash
+gh pr create --title "ci: add build gate for main and staging" --body "$(cat <<'EOF'
+## Summary
+- Add CI workflow that builds on PRs and on main/staging pushes
+
+Closes #<issue-number>
+
+## Test plan
+- [ ] PR checks green
+EOF
+)"
+gh pr checks --watch
+```
+
+After merge, open a PR **`main` → `staging`** (or sync `staging` from `main` on GitHub) so staging has the same CI file. Wait for checks, then merge.
+
+## Branch protection
+
+Protect **`main`** and **`staging`** so:
+
+1. Long-lived branches cannot be deleted when GitHub **Automatically delete head branches** runs (that setting deletes the PR **head** — including `staging` on a promote-to-`main` PR)
+2. Ideally, merges require a PR and green CI (the full <Tooltip term="ci-gate" label="CI gate" />)
+
+This lab’s **required** ruleset steps are **Restrict deletions** and **Block force pushes** (screenshot below). Require-PR and required status checks complete the CI-gate story — add them on the same ruleset (or classic branch protection) after those checks have run once on a PR.
+
+<ThemeDiagram
+  dark="branch-protection-diagram.svg"
+  light="branch-protection-diagram-light.svg"
+  alt="Full CI gate: pull requests only, required checks, blocked force push — add Require PR and status checks on top of Restrict deletions"
+/>
+
+### Lab path — repository rulesets (free / public)
+
+This sample uses **Rules** → **Rulesets** (not classic branch protection). Rulesets work on free accounts for **public** repos like this one. Private free accounts may be limited — use classic **Branch protection rules** under **Settings** → **Branches** if rulesets are unavailable; leave **Allow deletions** off there. Classic is also the older per-branch UI for the same goals.
+
+1. Open the repo on GitHub → **Settings** → **Rules** → **Rulesets** → **New ruleset** → **New branch ruleset**
+2. Name it (for example **Protect main and staging**) and set **Enforcement status** to **Active**
+3. Under **Target branches**, include **`main`** and **`staging`**
+4. Enable (required for this lab):
+   - **Restrict deletions** — stops auto-delete head branches from removing `staging` / `main`
+   - **Block force pushes**
+5. Enable (recommended CI gate — after the checks have run once on a PR):
+   - **Require a pull request before merging**
+   - **Require status checks to pass** — add the check names below
+6. **Create** / **Save changes**
+
+<DocImage
+  src="github-ruleset-protect-main-staging.png"
+  alt="GitHub ruleset Protect main and staging — Restrict deletions and Block force pushes active on main and staging"
+/>
+
+If you use classic branch protection instead, add a rule per branch (`main`, then `staging`), require a pull request and status checks, leave **Allow force pushes** and **Allow deletions** off, and save.
+
+Status check names (appear after they have run on a PR):
+
+- `CI / build` (or the exact name GitHub shows for the CI job)
+- `Markdown Lint / markdown-lint` (or the exact name shown)
+- `Commit Message Conformance / commitmsg-conform` (or the exact name shown)
+
+<Aside type="tip">
+If a check name is missing from the search list, open any PR so the workflow runs once, then return to the rule and search again.
+</Aside>
 
 <Aside type="caution">
-Feature PRs must target `staging`. Only promote `staging` → `main` after you have validated the staging Amplify URL.
+Feature PRs must target `staging`. Only promote `staging` → `main` after you have validated the staging Amplify URL. Without **Restrict deletions** (ruleset) or **Allow deletions** off (classic), auto-delete head branches will delete the Git `staging` branch on that promote merge.
 </Aside>
 
 Next: [Create Amplify app](/deploy-and-operate/create-amplify-app/).
+
+<DiagramIconCredit />

@@ -8,9 +8,9 @@ import Tooltip from "@/components/Tooltip.astro";
 
 ## Delete the Amplify app
 
-1. AWS Console → Amplify → your lab app
-2. **App settings** → **General** → **Delete app** (wording may vary)
-3. Confirm deletion
+1. AWS Console → Amplify → your lab app (`amplify-astro-cicd`)
+2. **App settings** → **General settings**
+3. Under **Delete app**, choose **Delete app** → confirm
 
 This removes:
 
@@ -19,7 +19,7 @@ This removes:
 - Build history for that app
 
 <Aside type="caution">
-<Tooltip term="branch-auto-delete" label="Branch auto-delete" /> only removes preview branches when Git branches disappear. **Deleting the Amplify app** is what ends hosting cost for the lab.
+Amplify <Tooltip term="branch-auto-delete" label="branch auto-disconnection" /> removes Amplify branches when matching Git branches disappear (including previews — and `staging` if Git `staging` was deleted). **Deleting the Amplify app** is what ends hosting cost for the lab.
 </Aside>
 
 ## Optional GitHub cleanup
@@ -27,10 +27,6 @@ This removes:
 - Delete feature branches you no longer need
 - Keep or delete the `amplify-astro-cicd` repository - your choice
 - You can leave the Amplify GitHub App installed for future labs, or remove app access to this repo under GitHub → Settings → Applications
-
-## What you should still have
-
-This walkthrough docs site is unrelated to the Amplify app teardown. It stays on GitHub Pages.
 
 ## Cost reminder
 

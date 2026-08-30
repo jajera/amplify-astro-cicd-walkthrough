@@ -9,7 +9,7 @@ export type GlossaryEntry =
 export const glossary: Record<string, GlossaryEntry> = {
   amplify: {
     definition:
-      "AWS Amplify Hosting - builds and hosts front-end apps from a Git repository with branch and PR preview URLs.",
+      "AWS Amplify Hosting - managed CDN hosting for front-end web apps. Git-connected continuous deployment is one option; this lab uses that path for branch and PR preview URLs.",
     url: "https://docs.aws.amazon.com/amplify/latest/userguide/welcome.html",
     urlLabel: "Amplify Hosting docs",
   },
@@ -22,7 +22,7 @@ export const glossary: Record<string, GlossaryEntry> = {
   "pr-preview":
     "Temporary Amplify hosting URL created for a pull request so you can review the built site before merge.",
   "branch-auto-delete":
-    "Amplify setting that removes a preview branch and its URL when the Git branch is deleted.",
+    "Amplify setting that automatically removes a preview host when its Git branch is deleted. Same end state as deleting that Amplify branch in the Console.",
   "astro": {
     definition:
       "Static site framework used for the sample app in this lab - Amplify runs npm ci and astro build, then publishes dist/.",

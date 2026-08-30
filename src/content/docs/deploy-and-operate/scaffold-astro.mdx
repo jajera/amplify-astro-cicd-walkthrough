@@ -1,21 +1,45 @@
 ---
 title: Scaffold Astro
-description: Create the minimal Astro sample, amplify.yml, and robots rules for non-main branches.
+description: Scaffold Astro, amplify.yml, and hygiene workflows through an issue, branch, and pull request.
 ---
 
-import { Aside } from "@astrojs/starlight/components";
+import { Aside, FileTree } from "@astrojs/starlight/components";
 import Tooltip from "@/components/Tooltip.astro";
 
-## Create the project
+## Starting point
 
-From an empty working directory (or into the existing `amplify-astro-cicd` clone):
+You should already be in the cloned repo:
+
+<FileTree>
+
+- amplify-astro-cicd/ repo root (`pwd`)
+  - .git/
+  - README.md
+
+</FileTree>
+
+Do **not** push commits straight to `main`. Use an issue, a feature branch, a pull request, wait for checks, then merge.
+
+## Open an issue
+
+Create a GitHub issue, for example: **Scaffold Astro sample and hygiene workflows**.
+
+## Create a branch
 
 ```bash
-npm create astro@latest amplify-astro-cicd -- --template minimal --install --no-git --typescript strict
-cd amplify-astro-cicd
+git fetch origin
+git checkout main
+git pull origin main
+git checkout -b feat/scaffold-astro
 ```
 
-Keep the site minimal: one page is enough. The goal is CI/CD, not content design.
+## Scaffold Astro
+
+Scaffold **into this directory** (not a nested folder):
+
+```bash
+npm create astro@latest . -- --template minimal --install --no-git --typescript strict
+```
 
 Confirm a local build:
 
@@ -23,6 +47,8 @@ Confirm a local build:
 npm run build
 ls dist
 ```
+
+Keep the site minimal: one page is enough. The goal is CI/CD, not content design.
 
 ## Add amplify.yml
 
@@ -59,16 +85,110 @@ Notes:
 
 Full reference: [amplify.yml](/reference/amplify-yml/).
 
-## Optional README stub
+## Add hygiene workflows
 
-```markdown
-# amplify-astro-cicd
+Create these under `.github/workflows/` before the first PR (best practice; required for commit message checks):
 
-Minimal Astro site for Amplify staging PR previews and GitHub CI
+`.github/workflows/markdown-lint.yml`:
+
+```yaml
+name: Markdown Lint
+
+on:
+  pull_request: {}
+
+permissions:
+  statuses: write
+  checks: write
+  contents: read
+  pull-requests: read
+
+jobs:
+  markdown-lint:
+    uses: actionsforge/actions/.github/workflows/markdown-lint.yml@main
 ```
 
-<Aside type="note">
-Do not `git init` yet if you will push into an existing empty GitHub repo. Initialize or add remote in the next step.
+`.github/workflows/commitmsg-conform.yml`:
+
+```yaml
+name: Commit Message Conformance
+
+on:
+  pull_request: {}
+
+permissions:
+  statuses: write
+  checks: write
+  contents: read
+  pull-requests: read
+
+jobs:
+  commitmsg-conform:
+    uses: actionsforge/actions/.github/workflows/commitmsg-conform.yml@main
+```
+
+## Target layout
+
+<FileTree>
+
+- amplify-astro-cicd/
+  - .git/
+  - .github/
+    - workflows/
+      - commitmsg-conform.yml
+      - markdown-lint.yml
+  - **amplify.yml**
+  - astro.config.mjs
+  - package.json
+  - package-lock.json
+  - public/
+    - favicon.svg
+  - README.md
+  - src/
+    - pages/
+      - index.astro
+  - tsconfig.json
+
+</FileTree>
+
+## Commit, PR, wait, merge
+
+Commits must pass commit message conformance: lowercase type, imperative header, **body required**.
+
+```bash
+git add .
+git commit -m "$(cat <<'EOF'
+feat: scaffold minimal astro sample for amplify
+
+Add Astro minimal app, amplify.yml, and markdown-lint plus
+commitmsg-conform workflows for pull request hygiene.
+EOF
+)"
+git push -u origin HEAD
+```
+
+Open a pull request into **`main`** (link the issue with `Closes #N`), wait for checks to pass, then merge (squash is fine).
+
+```bash
+gh pr create --title "feat: scaffold minimal astro sample for amplify" --body "$(cat <<'EOF'
+## Summary
+- Scaffold minimal Astro app with amplify.yml
+- Add markdown-lint and commitmsg-conform workflows
+
+Closes #<issue-number>
+
+## Test plan
+- [ ] PR checks green (markdown-lint, commitmsg-conform)
+- [ ] Local `npm run build` succeeds
+EOF
+)"
+gh pr checks --watch
+```
+
+Merge only after checks are green. Do not push to `main` directly.
+
+<Aside type="caution">
+Every later change in this lab follows the same path: issue → branch → PR → green checks → merge.
 </Aside>
 
 Next: [GitHub branches and CI](/deploy-and-operate/github-branches-and-ci/).
