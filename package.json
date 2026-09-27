@@ -20,8 +20,8 @@
     "starlight-base-path": "^0.2.1"
   },
   "devDependencies": {
-    "markdownlint-cli2": "^0.23.2",
-    "prettier": "^3.9.7"
+    "markdownlint-cli2": "^0.23.3",
+    "prettier": "^3.9.9"
   },
   "overrides": {
     "esbuild": "^0.28.1",
